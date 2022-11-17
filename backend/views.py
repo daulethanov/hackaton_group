@@ -18,6 +18,19 @@ def leave(request, pk):
             return render(request, 'groups_detail.html')
     return render(request, 'groups_detail.html')
 
+
+def group_join(request, pk):
+
+    if request.method == 'POST':
+        group = get_object_or_404(Group, pk=pk)
+        group.user_set.add(request.user)
+        group.save()
+        return redirect('/group_detail/' + str(pk))
+    else:
+        return render(request, 'home.html')
+
+
+
 def home(request):
     return render(request, 'home.html')
 
@@ -65,17 +78,17 @@ class GroupDetail(DetailView):
     template_name = 'groups_detail.html'
 
 
-def group_join(request):
-    if request.method == 'POST':
-        form = GroupForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            group = form.cleaned_data['group']
-            group.user_set.add(user)
-            return redirect('group_detail')
-        else:
-            form = GroupForm()
-        return render(request, 'home.html', {'form': form})
+# def group_join(request):
+#     if request.method == 'POST':
+#         form = GroupForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             group = form.cleaned_data['group']
+#             group.user_set.add(user)
+#             return redirect('group_detail')
+#         else:
+#             form = GroupForm()
+#         return render(request, 'home.html', {'form': form})
 
 
 

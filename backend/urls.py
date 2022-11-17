@@ -7,5 +7,6 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('logout/', logout_user, name='logout'),
     path('group_detail/<int:pk>/', GroupDetail.as_view(), name='group_detail'),
+    path('group_detail/<int:pk>/join/', group_join, name='join'),
     path('group_detail/<int:pk>/leave/', leave, name='leave'),
 ]
